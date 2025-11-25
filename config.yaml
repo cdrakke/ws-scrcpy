@@ -1,0 +1,16 @@
+# ws-scrcpy Configuration
+
+# Enable Android device tracking
+runGoogTracker: true
+runApplTracker: false
+
+# Server configuration
+server:
+- secure: false
+  port: 8000
+  # Uncomment for HTTPS (optional):
+  # - secure: true
+  #   port: 8443
+  #   options:
+  #     certPath: "/home/pi4/ws-scrcpy/certs/cert.pem"
+  #     keyPath: "/home/pi4/ws-scrcpy/certs/key.pem"
