@@ -111,21 +111,28 @@ body.stream {
   position: relative;
 }
 
-.video-layer {
+.video {
   position: relative;
-  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 100%;
+  max-width: 100%;
+  background-color: #000000;
+}
+
+.video-layer {
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .touch-layer {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1;
-}
-
-.video {
-    float: right;
-    max-height: 100%;
-    max-width: 100%;
-    background-color: #000000;
 }
 
 
