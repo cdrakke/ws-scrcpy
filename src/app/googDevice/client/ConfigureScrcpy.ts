@@ -372,8 +372,9 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
                 codecOptions,
                 encoderName,
             });
-        } catch (error: any) {
-            console.error(this.TAG, error.message);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(this.TAG, errorMessage);
             return null;
         }
     }

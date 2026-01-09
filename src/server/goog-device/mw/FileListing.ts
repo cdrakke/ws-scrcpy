@@ -80,8 +80,9 @@ export class FileListing extends Mw {
             if (cmd === Protocol.RECV) {
                 return AdbUtils.pipePullFileToStream(serial, pathString, channel);
             }
-        } catch (error: any) {
-            FileListing.sendError(error?.message, channel);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            FileListing.sendError(errorMessage, channel);
         }
     }
 

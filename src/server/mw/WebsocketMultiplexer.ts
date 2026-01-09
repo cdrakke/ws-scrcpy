@@ -10,7 +10,6 @@ export class WebsocketMultiplexer extends Mw {
     private multiplexer: Multiplexer;
     // private mw: Set<Mw> = new Set();
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public static processRequest(ws: WS, params: RequestParameters): WebsocketMultiplexer | undefined {
         const { action } = params;
         if (action !== ACTION.MULTIPLEX) {
@@ -42,6 +41,7 @@ export class WebsocketMultiplexer extends Mw {
         this.mwFactories.add(mwFactory);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected onSocketMessage(_event: WS.MessageEvent): void {
         // none;
     }

@@ -58,16 +58,17 @@ export class AdbUtils {
             }
             try {
                 stats = await this.stats(serial, pathString, stats, deep++);
-            } catch (error: any) {
-                if (error.message === 'Too deep') {
+            } catch (error: unknown) {
+                const err = error as Error & { code?: string };
+                if (err.message === 'Too deep') {
                     if (deep === 0) {
                         console.error(`Symlink is too deep: ${pathString}`);
                         return stats;
                     }
                     throw error;
                 }
-                if (error.code !== 'ENOENT') {
-                    console.error(error.message);
+                if (err.code !== 'ENOENT') {
+                    console.error(err.message);
                 }
             }
             return stats;
@@ -187,6 +188,8 @@ export class AdbUtils {
     ): Promise<IncomingMessage> {
         const client = AdbExtended.createClient();
         const socket = await client.openLocal(serial, `localabstract:${unixSocketName}`);
+        // ClientRequest constructor accepts options object with createConnection
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const request = new (http.ClientRequest as any)(url, {
             createConnection: () => {
                 return socket;

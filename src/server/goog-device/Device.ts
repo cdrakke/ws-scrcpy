@@ -319,6 +319,8 @@ export class Device extends TypedEmitter<DeviceEvents> {
                 Properties.forEach((propName: keyof GoogDeviceDescriptor) => {
                     if (props[propName] !== this.descriptor[propName]) {
                         changed = true;
+                        // Type assertion needed for dynamic property assignment
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         (this.descriptor[propName] as any) = props[propName];
                     }
                 });
@@ -439,8 +441,9 @@ export class Device extends TypedEmitter<DeviceEvents> {
             }
             this.descriptor.pid = -1;
             this.emitUpdate();
-        } catch (error: any) {
-            console.error(this.TAG, `Error: ${error.message}`);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(this.TAG, `Error: ${errorMessage}`);
             throw error;
         }
     }
@@ -457,8 +460,9 @@ export class Device extends TypedEmitter<DeviceEvents> {
                 console.log(this.TAG, `start server: "${output}"`);
             }
             return this.getServerPid();
-        } catch (error: any) {
-            console.error(this.TAG, `Error: ${error.message}`);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(this.TAG, `Error: ${errorMessage}`);
             throw error;
         }
     }

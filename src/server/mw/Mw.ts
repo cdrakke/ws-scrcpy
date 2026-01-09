@@ -17,10 +17,12 @@ export interface MwFactory {
 export abstract class Mw {
     protected name = 'Mw';
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public static processChannel(_ws: Multiplexer, _code: string, _data?: ArrayBuffer): Mw | undefined {
         return;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public static processRequest(_ws: WS, _params: RequestParameters): Mw | undefined {
         return;
     }

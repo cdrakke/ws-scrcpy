@@ -271,7 +271,7 @@ export class MsePlayer extends BasePlayer {
                 }
                 frame = this.frames.shift();
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(`[${this.name}]`, 'Failed to clean source buffer');
         }
     };

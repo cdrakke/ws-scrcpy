@@ -51,8 +51,9 @@ export class QVHStreamProxy extends Mw {
         let command: ControlCenterCommand;
         try {
             command = ControlCenterCommand.fromJSON(event.data.toString());
-        } catch (error: any) {
-            console.error(`${this.name}, Received message: ${event.data}. Error: ${error.message}`);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(`${this.name}, Received message: ${event.data}. Error: ${errorMessage}`);
             return;
         }
         console.log(`${this.name}, Received message: type:"${command.getType()}", data:${command.getData()}.`);

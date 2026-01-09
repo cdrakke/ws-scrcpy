@@ -30,7 +30,7 @@ export class RemoteDevtools extends Mw {
         let data;
         try {
             data = JSON.parse(event.data.toString());
-        } catch (error: any) {
+        } catch {
             console.log(`Received message: ${event.data}`);
             return;
         }

@@ -1,12 +1,14 @@
-export type Optional = {
-    [index: string]: any;
-};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Optional = Record<string, any>;
 
-// type Listener = <K extends keyof HTMLElementEventMap, T extends HTMLElement>(type: K, el: ToolBoxElement<T>) => any;
+type ToolBoxEventListener<T extends HTMLElement> = <K extends keyof HTMLElementEventMap>(
+    type: K,
+    el: ToolBoxElement<T>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+) => any;
 
 export abstract class ToolBoxElement<T extends HTMLElement> {
-    private listeners: Map<string, Set<<K extends keyof HTMLElementEventMap>(type: K, el: ToolBoxElement<T>) => any>> =
-        new Map();
+    private listeners: Map<string, Set<ToolBoxEventListener<T>>> = new Map();
     protected constructor(public readonly title: string, public readonly optional?: Optional) {}
 
     public abstract getElement(): T;
@@ -14,7 +16,7 @@ export abstract class ToolBoxElement<T extends HTMLElement> {
 
     public addEventListener<K extends keyof HTMLElementEventMap>(
         type: K,
-        listener: <K extends keyof HTMLElementEventMap>(type: K, el: ToolBoxElement<T>) => any,
+        listener: ToolBoxEventListener<T>,
         options?: boolean | AddEventListenerOptions,
     ): void {
         const set = this.listeners.get(type) || new Set();
@@ -25,10 +27,7 @@ export abstract class ToolBoxElement<T extends HTMLElement> {
         set.add(listener);
         this.listeners.set(type, set);
     }
-    public removeEventListener<K extends keyof HTMLElementEventMap>(
-        type: K,
-        listener: <K extends keyof HTMLElementEventMap>(type: K, el: ToolBoxElement<T>) => any,
-    ): void {
+    public removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: ToolBoxEventListener<T>): void {
         const set = this.listeners.get(type);
         if (!set) {
             return;

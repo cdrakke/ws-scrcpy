@@ -6,6 +6,8 @@ import { DisplayInfo } from '../DisplayInfo';
 type DecodedFrame = {
     width: number;
     height: number;
+    // Frame type varies by decoder implementation (Broadway, TinyH264, etc.)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     frame: any;
 };
 
@@ -25,12 +27,11 @@ export abstract class BaseCanvasBasedPlayer extends BasePlayer {
         const testCanvas: HTMLCanvasElement = document.createElement('canvas');
         const validContextNames = ['webgl', 'experimental-webgl', 'moz-webgl', 'webkit-3d'];
         let index = 0;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let gl: any = null;
+        let gl: RenderingContext | null = null;
         while (!gl && index++ < validContextNames.length) {
             try {
                 gl = testCanvas.getContext(validContextNames[index]);
-            } catch (error: any) {
+            } catch (error: unknown) {
                 gl = null;
             }
         }
@@ -77,6 +78,7 @@ export abstract class BaseCanvasBasedPlayer extends BasePlayer {
         }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected onFrameDecoded(width: number, height: number, frame: any): void {
         if (!this.receivedFirstFrame) {
             // decoded frame with previous video settings
@@ -105,6 +107,7 @@ export abstract class BaseCanvasBasedPlayer extends BasePlayer {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
     protected dropFrame(_frame: any): void {
         // dispose frame if required
     }

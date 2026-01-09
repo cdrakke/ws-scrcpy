@@ -70,7 +70,7 @@ export abstract class StreamClient<T extends ParamsStream> extends BaseClient<T,
             playerTd.classList.add(blockClass);
             playerTd.setAttribute(DeviceTracker.AttributePlayerFullName, encodeURIComponent(playerFullName));
             playerTd.setAttribute(DeviceTracker.AttributePlayerCodeName, encodeURIComponent(playerCodeName));
-            const q: any = {
+            const q: Record<string, string> = {
                 action: this.ACTION,
                 player: playerCodeName,
                 udid: descriptor.udid,

@@ -11,7 +11,9 @@ export class ReadStream extends Readable {
     public get path(): string | Buffer {
         return this._path;
     }
-    public push(chunk: any, encoding?: string): boolean {
+    // Readable.push accepts any chunk type per Node.js stream API
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public push(chunk: any, encoding?: BufferEncoding): boolean {
         if (chunk) {
             this._bytesRead += chunk.length;
         }

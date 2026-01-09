@@ -83,9 +83,10 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
         let message: Message;
         try {
             message = JSON.parse(event.data);
-        } catch (error: any) {
-            console.error(TAG, error.message);
-            console.log(TAG, error.data);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(TAG, errorMessage);
+            console.log(TAG, event.data);
             return;
         }
         if (message.type !== DevtoolsClient.ACTION) {
@@ -230,7 +231,9 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
                 size.className = 'size';
                 size.innerText = `size ${desc.width} × ${desc.height}`;
                 sub2.appendChild(size);
-            } catch (error: any) {}
+            } catch {
+                // Ignore JSON parse errors for screenX/screenY position data
+            }
         }
         const absoluteAddress = page.devtoolsFrontendUrl && page.devtoolsFrontendUrl.startsWith('http');
 

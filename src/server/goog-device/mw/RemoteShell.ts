@@ -86,8 +86,9 @@ export class RemoteShell extends Mw {
         let data;
         try {
             data = JSON.parse(event.data.toString());
-        } catch (error: any) {
-            console.error(`[${RemoteShell.TAG}]`, error?.message);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(`[${RemoteShell.TAG}]`, errorMessage);
             return;
         }
         this.handleMessage(data as Message).catch((error: Error) => {

@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(npm install:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm run dist:dev:*)",
+      "Bash(timeout 10 npm run dev:*)",
+      "Bash(npm run:*)",
+      "Bash(ls:*)",
+      "Bash(npx tsc --noEmit)"
     ],
     "deny": [],
     "ask": []

@@ -74,8 +74,9 @@ export class DeviceTracker extends Mw {
         let command: ControlCenterCommand;
         try {
             command = ControlCenterCommand.fromJSON(event.data.toString());
-        } catch (error: any) {
-            console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${error.message}`);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${errorMessage}`);
             return;
         }
         this.icc.runCommand(command).catch((error) => {

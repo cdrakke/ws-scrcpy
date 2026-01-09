@@ -42,6 +42,7 @@ const BUTTONS = [
 ];
 
 export class GoogToolBox extends ToolBox {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected constructor(list: ToolBoxElement<any>[]) {
         super(list);
     }
@@ -66,6 +67,7 @@ export class GoogToolBox extends ToolBox {
             const event = new KeyCodeControlMessage(action, code, 0, 0);
             client.sendMessage(event);
         };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const elements: ToolBoxElement<any>[] = list.map((item) => {
             const button = new ToolBoxButton(item.title, item.icon, {
                 code: item.code,

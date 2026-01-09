@@ -19,6 +19,7 @@ export interface StreamClient {
 }
 
 export class ApplToolBox extends ToolBox {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected constructor(list: ToolBoxElement<any>[]) {
         super(list);
     }
@@ -42,6 +43,7 @@ export class ApplToolBox extends ToolBox {
             const { name } = element.optional;
             wdaConnection.pressButton(name);
         };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const elements: ToolBoxElement<any>[] = list.map((item) => {
             const button = new ToolBoxButton(item.title, item.icon, {
                 name: item.name,

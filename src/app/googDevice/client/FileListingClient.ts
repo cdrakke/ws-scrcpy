@@ -286,6 +286,7 @@ export class FileListingClient extends ManagerClient<ParamsFileListing, never> i
         this.addForeground(Foreground.Connect);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected onSocketMessage(_e: MessageEvent): void {
         // We create separate channel for each request
         // Don't expect any messages on this level

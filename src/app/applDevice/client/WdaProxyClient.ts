@@ -85,7 +85,7 @@ export class WdaProxyClient
     private commands: string[] = [];
     private hasSession = false;
     private messageId = 0;
-    private wait: Map<number, { resolve: (m: Message) => void; reject: (error: any) => void }> = new Map();
+    private wait: Map<number, { resolve: (m: Message) => void; reject: (error: Error) => void }> = new Map();
 
     constructor(params: ParamsWdaProxy) {
         super(params);
@@ -267,7 +267,8 @@ export class WdaProxyClient
         return response as MessageRunWdaResponse;
     }
 
-    public async requestWebDriverAgent(method: WDAMethod, args?: any): Promise<any> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public async requestWebDriverAgent(method: WDAMethod, args?: unknown): Promise<any> {
         if (!this.hasSession) {
             throw Error('No session');
         }

@@ -7,13 +7,19 @@ export class ControlCenterCommand {
     public static CONFIGURE_STREAM = 'configure_stream';
     public static RUN_WDA = 'run-wda';
     public static REQUEST_WDA = 'request-wda';
+    public static ADB_CONNECT = 'adb_connect';
+    public static ADB_DISCONNECT = 'adb_disconnect';
 
     private id = -1;
     private type = '';
     private pid = 0;
     private udid = '';
     private method = '';
+    private host = '';
+    private port = 5555;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private args?: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private data?: any;
 
     public static fromJSON(json: string): ControlCenterCommand {
@@ -48,6 +54,16 @@ export class ControlCenterCommand {
             case this.CONFIGURE_STREAM:
             case this.RUN_WDA:
                 return command;
+            case this.ADB_CONNECT:
+            case this.ADB_DISCONNECT:
+                if (typeof data.host !== 'string' || !data.host) {
+                    throw new Error('Invalid "host" value');
+                }
+                command.host = data.host;
+                if (typeof data.port === 'number' && data.port > 0) {
+                    command.port = data.port;
+                }
+                return command;
             default:
                 throw new Error(`Unknown command "${body.command}"`);
         }
@@ -68,10 +84,18 @@ export class ControlCenterCommand {
     public getMethod(): WDAMethod | string {
         return this.method;
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public getData(): any {
         return this.data;
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public getArgs(): any {
         return this.args;
+    }
+    public getHost(): string {
+        return this.host;
+    }
+    public getPort(): number {
+        return this.port;
     }
 }

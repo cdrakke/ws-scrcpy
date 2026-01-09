@@ -10,6 +10,8 @@ export class Event2 {
     public type: string;
     public defaultPrevented: boolean;
     public timeStamp: number;
+    // Event.target is typed as EventTarget | null in DOM, but we need compatibility with various targets
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public target: any;
     public readonly isTrusted: boolean = true;
     readonly AT_TARGET: number = 0;
@@ -56,7 +58,7 @@ export class Event2 {
         return false;
         // return this.propagationStopped;
     }
-    set cancelBubble(value: any) {
+    set cancelBubble(value: boolean) {
         if (value) {
             this.stopPropagation();
         }

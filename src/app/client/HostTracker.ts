@@ -50,9 +50,10 @@ export class HostTracker extends ManagerClient<ParamsBase, HostTrackerEvents> {
         try {
             // TODO: rewrite to binary
             message = JSON.parse(event.data);
-        } catch (error: any) {
-            console.error(TAG, error.message);
-            console.log(TAG, error.data);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(TAG, errorMessage);
+            console.log(TAG, event.data);
             return;
         }
         switch (message.type) {

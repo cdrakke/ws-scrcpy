@@ -47,6 +47,7 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
         return wsUrl;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public static buildLink(q: any, text: string, params: ParamsDeviceTracker): HTMLAnchorElement {
         let { hostname } = params;
         let port: string | number | undefined = params.port;
@@ -161,9 +162,10 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
         let message: Message;
         try {
             message = JSON.parse(event.data);
-        } catch (error: any) {
-            console.error(TAG, error.message);
-            console.log(TAG, error.data);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(TAG, errorMessage);
+            console.log(TAG, event.data);
             return;
         }
         switch (message.type) {

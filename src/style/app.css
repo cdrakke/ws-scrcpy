@@ -1,54 +1,56 @@
-:root {
-    --main-bg-color: hsl(0, 0%, 100%);
-    --stream-bg-color: hsl(0, 0%, 85%);
-    --shell-bg-color: hsl(0, 0%, 0%);
-    --text-shadow-color: hsl(218, 67%, 95%);
-    --header-bg-color: hsl(0, 0%, 95%);
-    --controls-bg-color: hsla(0, 0%, 95%, 0.8);
-    --control-buttons-bg-color: hsl(0, 0%, 95%);
-    --text-color: hsl(210, 16%, 22%);
-    --text-color-light: hsl(200, 16%, 52%);
-    --link-color: hsl(218, 85%, 43%);
-    --link-color-light: hsl(218, 85%, 73%);
-    --link-color_visited: hsl(271, 68%, 32%);
-    --link-color_visited-light: hsl(271, 68%, 72%);
-    --svg-checkbox-bg-color: hsl(172, 100%, 37%);
-    --svg-button-fill: hsl(199, 17%, 46%);
-    --kill-button-hover-color: hsl(342, 100%, 37%);
-    --url-color: hsl(0, 0%, 60%);
-    --button-text-color: hsl(214, 82%, 51%);
-    --button-border-color: hsl(0, 0%, 70%);
-    --progress-background-color: hsla(225, 100%, 50%, 0.2);
-    --progress-background-error-color: hsla(0, 100%, 50%, 0.2);
-    --font-size: 14px;
-}
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+@source "../app/**/*.{ts,tsx}";
+@source "../public/index.html";
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --main-bg-color: hsl(0, 0%, 14%);
-        --stream-bg-color: hsl(0, 0%, 20%);
-        --shell-bg-color: hsl(0, 0%, 0%);
-        --text-shadow-color: hsl(218, 17%, 18%);
-        --header-bg-color: hsl(0, 0%, 20%);
-        --controls-bg-color: hsla(201, 18%, 19%, 0.8);
-        --control-buttons-bg-color: hsl(201, 18%, 19%);
-        --text-color: hsl(0, 0%, 90%);
-        --text-color-light: hsl(0, 0%, 60%);
-        --link-color: hsl(218, 63%, 70%);
-        --link-color-light: hsl(218, 63%, 50%);
-        --link-color_visited: hsl(267, 31%, 47%);
-        --link-color_visited-light: hsl(267, 31%, 27%);
-        --svg-checkbox-bg-color: hsl(172, 100%, 27%);
-        --svg-button-fill: hsl(0, 0%, 100%);
-        --kill-button-hover-color: hsl(342, 100%, 27%);
-        --url-color: hsl(0, 0%, 60%);
-        --device-list-stripe-color: hsl(0, 0%, 16%);
-        --device-list-default-color: hsl(0, 0%, 14%);
-        --button-text-color: hsl(214, 82%, 76%);
-        --button-border-color: hsl(213, 5%, 39%);
-        --progress-background-color: hsla(225, 100%, 50%, 0.2);
-        --progress-background-error-color: hsla(0, 100%, 50%, 0.2);
-    }
+/* Dark mode only - shadcn/ui CSS variables */
+:root {
+    --background: 0 0% 9%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 0 0% 18%;
+    --accent-foreground: 0 0% 95%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 0 0% 80%;
+    --radius: 0.5rem;
+
+    /* Legacy app variables - dark mode values */
+    --main-bg-color: hsl(0, 0%, 9%);
+    --stream-bg-color: hsl(0, 0%, 12%);
+    --shell-bg-color: hsl(0, 0%, 0%);
+    --text-shadow-color: hsl(218, 17%, 18%);
+    --header-bg-color: hsl(0, 0%, 12%);
+    --controls-bg-color: hsla(0, 0%, 12%, 0.9);
+    --control-buttons-bg-color: hsl(0, 0%, 12%);
+    --text-color: hsl(0, 0%, 95%);
+    --text-color-light: hsl(0, 0%, 65%);
+    --link-color: hsl(218, 63%, 70%);
+    --link-color-light: hsl(218, 63%, 50%);
+    --link-color_visited: hsl(267, 31%, 47%);
+    --link-color_visited-light: hsl(267, 31%, 27%);
+    --svg-checkbox-bg-color: hsl(0, 0%, 95%);
+    --svg-button-fill: hsl(0, 0%, 100%);
+    --kill-button-hover-color: hsl(0, 62%, 30%);
+    --url-color: hsl(0, 0%, 65%);
+    --device-list-stripe-color: hsl(0, 0%, 12%);
+    --device-list-default-color: hsl(0, 0%, 9%);
+    --button-text-color: hsl(0, 0%, 95%);
+    --button-border-color: hsl(0, 0%, 25%);
+    --progress-background-color: hsla(0, 0%, 50%, 0.2);
+    --progress-background-error-color: hsla(0, 62%, 50%, 0.2);
+    --font-size: 14px;
 }
 
 html {

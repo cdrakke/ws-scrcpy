@@ -1,4 +1,6 @@
 import '../style/app.css';
+// Static import to ensure Tailwind scans component files during build
+import './components';
 import { StreamClientScrcpy } from './googDevice/client/StreamClientScrcpy';
 import { HostTracker } from './client/HostTracker';
 import { Tool } from './client/Tool';

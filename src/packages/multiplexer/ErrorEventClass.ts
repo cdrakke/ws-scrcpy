@@ -2,6 +2,8 @@ import { Event2 } from './Event';
 
 export class ErrorEvent2 extends Event2 implements ErrorEvent {
     readonly colno: number;
+    // ErrorEvent.error is typed as `any` in the DOM spec
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readonly error: any;
     readonly filename: string;
     readonly lineno: number;

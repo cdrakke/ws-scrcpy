@@ -19,7 +19,7 @@ export class WdaRunner extends TypedEmitter<WdaRunnerEvents> {
     private static instances: Map<string, WdaRunner> = new Map();
     public static SHUTDOWN_TIMEOUT = 15000;
     private static servers: Map<string, Server> = new Map();
-    private static cachedScreenWidth: Map<string, any> = new Map();
+    private static cachedScreenWidth: Map<string, number> = new Map();
     public static getInstance(udid: string): WdaRunner {
         let instance = this.instances.get(udid);
         if (!instance) {
@@ -34,10 +34,10 @@ export class WdaRunner extends TypedEmitter<WdaRunnerEvents> {
         if (!server) {
             const port = await portfinder.getPortPromise();
             server = await XCUITest.startServer(port, '127.0.0.1');
-            server.on('error', (...args: any[]) => {
+            server.on('error', (...args: unknown[]) => {
                 console.error('Server Error:', args);
             });
-            server.on('close', (...args: any[]) => {
+            server.on('close', (...args: unknown[]) => {
                 console.error('Server Close:', args);
             });
             this.servers.set(udid, server);
@@ -109,6 +109,7 @@ export class WdaRunner extends TypedEmitter<WdaRunnerEvents> {
         return this.mjpegServerPort;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public async request(command: ControlCenterCommand): Promise<any> {
         const driver = this.server?.driver;
         if (!driver) {
@@ -191,10 +192,10 @@ export class WdaRunner extends TypedEmitter<WdaRunnerEvents> {
             /// #endif
             this.started = true;
             this.emit('status-change', { status: WdaStatus.STARTED });
-        } catch (error: any) {
+        } catch (error) {
             this.started = false;
             this.starting = false;
-            this.emit('error', error);
+            this.emit('error', error as Error);
         }
         this.server = server;
     }

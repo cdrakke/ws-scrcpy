@@ -155,14 +155,24 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
         this.stopTracker();
     }
 
-    public async runCommand(command: ControlCenterCommand): Promise<void> {
+    public async runCommand(command: ControlCenterCommand): Promise<AdbCommandResult | void> {
+        const type = command.getType();
+
+        // Handle ADB connect/disconnect commands (don't require device to exist)
+        if (type === ControlCenterCommand.ADB_CONNECT) {
+            return this.adbConnect(command.getHost(), command.getPort());
+        }
+        if (type === ControlCenterCommand.ADB_DISCONNECT) {
+            return this.adbDisconnect(command.getHost(), command.getPort());
+        }
+
+        // Device-specific commands require existing device
         const udid = command.getUdid();
         const device = this.getDevice(udid);
         if (!device) {
             console.error(`Device with udid:"${udid}" not found`);
             return;
         }
-        const type = command.getType();
         switch (type) {
             case ControlCenterCommand.KILL_SERVER:
                 await device.killServer(command.getPid());
@@ -177,4 +187,33 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
                 throw new Error(`Unsupported command: "${type}"`);
         }
     }
+
+    public async adbConnect(host: string, port: number): Promise<AdbCommandResult> {
+        try {
+            const result = await this.client.connect(host, port);
+            console.log(`ADB connect to ${host}:${port}: ${result}`);
+            return { success: true, message: result };
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : String(error);
+            console.error(`ADB connect to ${host}:${port} failed: ${message}`);
+            return { success: false, message };
+        }
+    }
+
+    public async adbDisconnect(host: string, port: number): Promise<AdbCommandResult> {
+        try {
+            const result = await this.client.disconnect(host, port);
+            console.log(`ADB disconnect from ${host}:${port}: ${result}`);
+            return { success: true, message: result };
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : String(error);
+            console.error(`ADB disconnect from ${host}:${port} failed: ${message}`);
+            return { success: false, message };
+        }
+    }
+}
+
+export interface AdbCommandResult {
+    success: boolean;
+    message: string;
 }

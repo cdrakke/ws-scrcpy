@@ -86,3 +86,53 @@ Uses `ifdef-loader` with feature flags defined in `webpack/default.build.config.
 ## ESLint Configuration
 
 Uses `@typescript-eslint` with Prettier integration. Run `npm run lint` to check, `npm run format` to auto-fix.
+
+## UI Component Guidelines
+
+This project uses React with shadcn/ui for the UI layer. Follow these rules:
+
+### Technology Stack
+- **React** with TypeScript for UI components
+- **shadcn/ui** components exclusively (based on Radix UI primitives)
+- **Tailwind CSS** for styling
+- **Lucide React** for icons
+
+### Component Structure
+```
+src/app/
+  components/
+    ui/           # shadcn/ui base components (button, card, input, etc.)
+    device/       # Device-related components
+    stream/       # Streaming/video components
+  lib/
+    utils.ts      # cn() utility for class merging
+```
+
+### Rules
+1. **Use shadcn/ui components EXCLUSIVELY** - Don't create custom styled components unless shadcn doesn't have an equivalent
+2. **Dark mode only** - No light mode support. The app uses a black/white theme with `class="dark"` on the html element
+3. **Use Lucide icons** - Import from `lucide-react`, not custom SVGs
+4. **All custom components go in `src/app/components/`**
+5. **Video players remain vanilla** - The `BasePlayer` classes manage their own DOM. Integrate via React refs
+
+### shadcn/ui Components Available
+- `Button` - All action buttons
+- `Card` - Device cards, panels
+- `Input` - Form inputs
+- `Badge` - Status indicators
+- `Separator` - Dividers
+
+### CSS Variables (defined in app.css)
+The theme uses CSS custom properties for colors:
+- `--background`, `--foreground` - Page background/text
+- `--card`, `--card-foreground` - Card colors
+- `--primary`, `--primary-foreground` - Primary buttons
+- `--muted`, `--muted-foreground` - Muted text
+- `--border`, `--input`, `--ring` - Form elements
+
+## ADB Connect Feature
+
+The app supports connecting to remote ADB devices directly from the UI:
+- Backend: `ControlCenterCommand.ADB_CONNECT` and `ADB_DISCONNECT` commands
+- Frontend: Connect form in device list page with recent connections (localStorage)
+- Endpoint: Uses adbkit's `client.connect(host, port)` and `client.disconnect(host, port)`

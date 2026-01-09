@@ -19,11 +19,13 @@ export interface WebsocketEventEmitter {
     dispatchEvent(event: Event): boolean;
     addEventListener<K extends keyof WebSocketEventMap>(
         type: K,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         listener: (this: WebSocket, ev: WebSocketEventMap[K]) => any,
         options?: boolean | AddEventListenerOptions,
     ): void;
     removeEventListener<K extends keyof WebSocketEventMap>(
         type: K,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         listener: (this: WebSocket, ev: WebSocketEventMap[K]) => any,
         options?: boolean | EventListenerOptions,
     ): void;
@@ -43,9 +45,14 @@ export class Multiplexer extends TypedEmitter<MultiplexerEvents> implements WebS
     private readonly messageEmitter: WebsocketEventEmitter;
     private emptyTimerScheduled = false;
 
+    // WebSocket interface requires these callback signatures with `any` return type
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public onclose: ((this: WebSocket, ev: CloseEvent) => any) | null = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public onerror: ((this: WebSocket, ev: Event) => any) | null = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public onmessage: ((this: WebSocket, ev: MessageEvent) => any) | null = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public onopen: ((this: WebSocket, ev: Event) => any) | null = null;
     public url = '';
 

@@ -74,13 +74,44 @@ export class DeviceTracker extends Mw {
         let command: ControlCenterCommand;
         try {
             command = ControlCenterCommand.fromJSON(event.data.toString());
-        } catch (error: any) {
-            console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${error?.message}`);
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : String(error);
+            console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${message}`);
             return;
         }
-        this.adt.runCommand(command).catch((e) => {
-            console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${e.message}`);
-        });
+
+        const commandId = command.getId();
+        const commandType = command.getType();
+
+        this.adt
+            .runCommand(command)
+            .then((result) => {
+                // Send response for connect/disconnect commands
+                if (
+                    commandType === ControlCenterCommand.ADB_CONNECT ||
+                    commandType === ControlCenterCommand.ADB_DISCONNECT
+                ) {
+                    this.sendMessage({
+                        id: commandId,
+                        type: `${commandType}_response`,
+                        data: result,
+                    });
+                }
+            })
+            .catch((e: Error) => {
+                console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${e.message}`);
+                // Send error response for connect/disconnect commands
+                if (
+                    commandType === ControlCenterCommand.ADB_CONNECT ||
+                    commandType === ControlCenterCommand.ADB_DISCONNECT
+                ) {
+                    this.sendMessage({
+                        id: commandId,
+                        type: `${commandType}_response`,
+                        data: { success: false, message: e.message },
+                    });
+                }
+            });
     }
 
     public release(): void {
